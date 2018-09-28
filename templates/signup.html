@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>MyContact</title>
+        <script src="static/lib/jquery-2.1.1.min.js"></script>
+        <script src="static/lib/bootstrap.js"></script>
+        <script src="static/lib/script.js"></script>
+        <link rel="icon" href="static/img/icon.png" type="image/x-icon"/>
+        <link rel="stylesheet" type="text/css" href="static/lib/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="static/lib/style.css">
+    </head>
+    <body>
+        <a href="login" id="asignup" style="text-decoration: none">登陆</a>
+        <center>
+        <img alt="mycontact.png" src="static/img/mycontact.png" style="width: 500px;margin-top:20px ">
+        </br>
+        <form action="/signup" method="post" enctype="multipart/form-data">
+            <div style="border: solid 3px rgba(255,255,255,0.7);border-radius: 10px;width: 252px;background:rgba(0,0,0,0.5);">
+                <div style="position: relative;right: 20px;top: 6px;display:inline-block;width: 100px;height: 100px;border:3px solid rgba(85,85,170,0.8);border-radius: 100px;background-color: #fff;overflow: hidden ">
+                    <img alt="z1.png" src="static/img/default.png" style="position: absolute;left:-2px;height: 100px;width: 100px;" id="preview" />
+                </div >
+                <!--
+                <div style="display: inline-block;border: solid 5px #f00;alignment-adjust: middle"><input type="file"></div>
+                -->
+                <div style="position: relative;bottom: 37px;left:6px;display: inline-block;margin-left: 0px;">
+                <span class="btn btn-success fileinput-button">
+                    <span style="cursor:pointer;"><div style="cursor: pointer">选择头像</div></span>
+                    <input class="file" type="file" name="file" onchange="imgPreview(this)" />
+                </span>
+                </div>
+            </div>
+
+
+            <div style="margin-top:30px;">
+                <div class="input_div"><input class="input_type" type="text" value="{{ name_msg }}" name="name" placeholder="请输入用户名"></div>
+                <div class="input_div"><input class="input_type" id="phone" onchange="checkPhone()" type="text" value="{{ phone_msg }}" name="phone" placeholder="请输入手机号码"></div>
+                <div class="input_div"><input class="input_type" type="password" name="pwd" placeholder="请输入你的密码"></div>
+                <br>
+                <span id="msgspan" style="color: red;position: absolute;left: 50%;opacity: 0.8;text-align: right;font-size: 10px;">{{ error_msg }}</span>
+                <div class="input_div_submit" style="cursor:pointer"><input id="input_submit" type="submit" value="注册" style="cursor:pointer" ></div>
+            </div>
+        </form>
+        </center>
+
+        <!--背景动画-->
+        <canvas id="space" style="
+            position:absolute;
+            left:0px;
+            z-index:-1;
+            margin-top: 0;
+            top: 0;
+            height:100%;
+            width:1349px;">
+        </canvas>
+        <!--背景动画-->
+        <script src="static/lib/dynamic_stars.js"></script>
+    </body>
+</html>

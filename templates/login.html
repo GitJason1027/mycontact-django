@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>MyContact</title>
+        <!--<script src="lib/jquery-2.1.1.min.js"></script>-->
+        <link rel="stylesheet" type="text/css" href="static/lib/style.css">
+        <link rel="icon" href="static/img/icon.png" type="image/x-icon"/>
+    </head>
+    <body>
+        <a href="signup" class="asign">注册</a>
+        <center>
+        <img alt="mycontact.png" src="static/img/mycontact.png" style="width: 500px;margin-top:50px ">
+        <div class="login">
+            <form action="/login" method="post">
+            <div class="input_div"><input class="input_type"  name="phone" type="text" placeholder="手机号码" value="{{ phone_msg }}"></div>
+            <div class="input_div"><input class="input_type" name="pwd" type="password" placeholder="密码"></div><br>
+            <span style="color: red;position: absolute;left: 50%;opacity: 0.8;font-size: 10px;">{{ error_msg }}</span>
+            <div class="input_div_submit" style="cursor:pointer"><input id="input_submit" type="submit" value="登陆" style="cursor:pointer" ></div>
+            </form>
+
+        </div>
+
+        </center>
+
+        <!--背景动画-->
+        <canvas id="space" style="
+            position:absolute;
+            left:0px;
+            z-index:-1;
+            margin-top: 0;
+            top: 0;
+            height:100%;
+            width:1349px;">
+        </canvas>
+        <!--背景动画-->
+        <script src="static/lib/dynamic_stars.js"></script>
+    </body>
+</html>

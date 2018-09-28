@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <script src="static/lib/jquery-2.1.1.min.js"></script>
+        <script src="static/lib/bootstrap.js"></script>
+        <script src="static/lib/script.js"></script>
+        <link rel="icon" href="static/img/icon.png" type="image/x-icon"/>
+        <link rel="stylesheet" type="text/css" href="static/lib/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="static/lib/home.css">
+        <link rel="stylesheet" type="text/css" href="static/lib/style.css">
+        <style>
+            .top_nav{
+                /*background-color: #1d1d1d;*/
+                padding: 10px;
+                position: relative;
+            }
+            .username{
+                font-family: "Microsoft YaHei";
+                color:#fff;
+                text-decoration: none;
+                font-size: 14px;
+            }
+            a:hover {
+                text-decoration: none;
+            }
+            .displaynone{
+                display: none;
+            }
+            .nav_left{
+                margin-top: 7px;
+                font-family: "Microsoft YaHei UI";
+            }
+            .border{
+                border: solid 1px #ebebeb;
+                border-radius: 10px;
+                /*width: 252px;*/
+                background:rgba(255,255,255,0.5);
+                box-shadow: -0.5px -0.5px 1px 1px rgba(210,210,210,0.8) inset;
+            }
+            .searchAlert{
+                font-family:Microsoft YaHei UI;
+                width: auto;
+                padding: 6px 10px;
+                display: inline;
+                font-size: 15px;
+                position: relative;
+                top:3px;
+            }
+        </style>
+        <script>
+        </script>
+        <title>MyContact</title>
+    </head>
+    <body style="padding: 0px;background-color: #e8e8e8">
+        <canvas id="space" style="
+            position:absolute;
+            left:0px;
+            z-index:-1;
+            margin-top: 0;
+            top: 0;
+            height:92px;
+            width:100%;">
+        </canvas>
+        <!--背景动画-->
+        <script src="static/lib/dynamic_stars.js"></script>
+        <link rel="stylesheet" type="text/css" href="static/lib/style.css">
+        <!--头部导航栏-->
+        <div class="top_nav">
+            <div style="position:relative;left: 10px;display:inline-block;width: 65px;height: 65px;border:1px solid rgba(200,200,200,0.6);border-radius: 100px;background-color:#1d1d1d ;overflow: hidden ">
+                <a href='/home-{{ id_msg }}.html'>
+                    <img alt="img" src="{{ imgsrc_msg }}" style="position: relative;right: 5px;bottom:2px;height: 65px;"/>
+                </a>
+            </div >
+            <a href='/home-{{ id_msg }}.html'><img alt="img" src="static/img/mycontact.png" style="position: absolute;top: 15px;left: 115px;height: 65px;"/></a>
+            <div style="position: absolute;right: 20px;top:37px">
+                <span class="username">用户&nbsp;{{ name_msg }}</span>
+                <span class="username">,</span>
+                <a href="/login" class="username" >注销</a>
+            </div>
+        </div>
+
+        <!--标签/搜索栏-->
+        <div class="nav_tag" style="height: auto;padding:2px 25px;font-family: 'Microsoft YaHei UI'">
+            <a href='/home-{{ id_msg }}.html' class="btn btn-primary nav_left" style="margin: 5px 0px;font-size: 14px;"><<返回</a>
+            {% if success_msg %}
+                <div class="alert alert-success searchAlert">{{ success_msg }}</div>
+            {% endif %}
+        </div>
+        <!--标签/搜索栏-->
+
+
+        <center>
+            <form action="/usermanage-{{ id_msg }}.html" method="post" enctype="multipart/form-data">
+             <div class="border" style="padding: 6px;width:300px;margin-top: 10px;">
+                <div style="position: relative;right: 20px;top: 6px;display:inline-block;width: 100px;height: 100px;border:1px solid #cccccc;border-radius: 100px;background-color: #fff;overflow: hidden ">
+                    <img alt="z1.png" src="{{ imgsrc_msg }}" style="position: absolute;left:-2px;height: 100px;width: 100px;" id="preview" />
+                </div >
+
+                <div style="position: relative;bottom: 37px;left:6px;display: inline-block;margin-left: 0px;">
+                    <span class="btn btn-default fileinput-button">
+                        <span style="cursor:pointer;"><div style="cursor: pointer">选择头像</div></span>
+                        <input class="file" type="file" name="file" onchange="imgPreview(this)" />
+                    </span>
+                </div>
+            </div>
+            <div class="border" style="padding: 6px;width:300px;margin-top: 10px;position: relative;">
+                <table style="font-family: 'Microsoft YaHei UI';text-align: right">
+                    <tr><td>手机：</td><td><input class="form-control" name="uphone" value="{{ phone_msg }}"  type="text" readonly="readonly"></td></tr>
+                    <tr><td>昵称：</td><td><input class="form-control" name="uname" type="text" value="{{ name_msg }}"/></td></tr>
+                    <tr><td>密码：</td><td><input class="form-control" name="upwd" type="text" placeholder="请输入新密码"/></td></tr>
+                    <tr><td>确认密码：</td><td><input class="form-control" name="upwd_rapid" type="text" placeholder="请输入重复密码"/></td></tr>
+                </table>
+                <span id="msgspan" style="position:absolute;top:178px;color: red;opacity: 0.8;text-align: right;font-size: 10px;">{{ error_msg }}</span>
+                <div style="margin: 10px 0px;">
+                    <input name="submit_edit" class="btn btn-success btn-sm" type="submit" value="修改">
+                    <input type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal" value="删除用户">
+                </div>
+            </div>
+            </form>
+        </center>
+
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            注意
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        你确定要删除此用户以及所有相关联系人信息？
+                    </div>
+                    <div class="modal-footer">
+                        <form action="/deleteuser" method="post">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <input type="text" name="uid_delete" value="{{ id_msg }}" class="displaynone">
+                            <button type="submit" class="btn btn-danger">
+                                确认删除
+                            </button>
+                        </form>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+
+    </body>
+</html>

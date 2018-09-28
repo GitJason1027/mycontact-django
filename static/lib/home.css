@@ -1,0 +1,96 @@
+.out{
+    width: 230px;
+    border: solid 0px #808080;
+    border-radius: 7px;
+    position:relative;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: -3px 2px 6px 1.5px #808080;
+    margin: 15px;
+    display: inline-block;
+}
+.add_out{
+    margin: 15px;
+    width: 230px;
+    border: solid 0px #808080;
+    border-radius: 7px;
+    position:relative;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: -3px 2px 6px 1.5px #808080;
+    display: inline-block;
+}
+.mask{
+    background: rgba(0,0,0,0.2);
+    width: 230px;
+    height: 100px;
+    position: absolute;
+    top: 0px;
+}
+.bg_color{
+    float: left;
+    width: 230px;
+    height: 100px;
+    /*background-image: url(../img/lp1.jpg);*/
+}
+.bg_color > a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+    position: relative;
+    top: 70px;
+    left: 16px;
+    font-family: 'Microsoft YaHei';
+}
+input{
+    border-width: 0 0 1px 0;
+    border-color: #bab9b9;
+    font-family: 'Microsoft YaHei';
+    margin: 5px 0px;
+    color: #363434;
+    width:150px;
+    padding-left: 5px;
+}
+.info{
+    position: relative;
+    left: 5px;
+    font-family: 'Microsoft YaHei';
+    padding-left: 10px;
+}
+.tspan{
+    font-size: 14px;
+    color: #363434;
+}
+.ctextarea{
+    padding-left: 5px;
+    width: 150px;
+    vertical-align: top;
+    margin: 5px 0px;
+    border-width: 0 0 1px 0;
+    border-color: #bab9b9;
+    font-family: 'Microsoft YaHei';
+}
+
+.cname{
+    font-size: 21px;
+    color: #fff;
+    background: rgba(0,0,0,0);
+    position: absolute;
+    border: 0px;
+    top: 56px;
+    left: 10px;
+    z-index: 2;
+}
+
+/*标签搜索栏*/
+.nav_tag{
+    height: 50px;
+    background: #f8f8f8;
+    box-shadow: -0.5px -0.5px 1px 1px rgba(210,210,210,0.8)  inset;
+    position: relative;
+}
+
+
+.buttonselect{
+
+}

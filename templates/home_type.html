@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <script src="static/lib/jquery-2.1.1.min.js"></script>
+        <script src="static/lib/bootstrap.js"></script>
+        <script src="static/lib/script.js"></script>
+        <link rel="icon" href="static/img/icon.png" type="image/x-icon"/>
+        <link rel="stylesheet" type="text/css" href="static/lib/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="static/lib/home.css">
+        <style>
+            .top_nav{
+                /*background-color: #1d1d1d;*/
+                padding: 10px;
+                position: relative;
+            }
+            .editable{
+                border-radius: 2.5px;
+                box-shadow: 0.5px 0.5px 1px 1px rgba(210,210,210,0.8)  inset;
+            }
+            .username{
+                font-family: "Microsoft YaHei";
+                color:#fff;
+                text-decoration: none;
+                font-size: 14px;
+            }
+            a:hover {
+                text-decoration: none;
+            }
+            .editstyle{
+                position: absolute;
+                right: 19px;
+                top: 113px;
+                z-index: 2;
+            }
+            .displaynone{
+                display: none;
+            }
+            .csubmit{
+                width: 40px;
+                margin-left: 10px;
+                margin-top: 0px;
+                margin-bottom: 10px;
+                box-shadow: none;
+            }
+            .nav_left{
+                margin-top: 7px;
+                margin-bottom: 5px;
+                font-family: "Microsoft YaHei UI";
+                display: inline-block;
+            }
+            .tag_style{
+                display: inline-block;
+                font-family: "Microsoft YaHei UI";
+                margin: 5px 0px;
+                position: relative;
+                top:1px;
+            }
+
+        </style>
+        <script>
+            var seleted_tid;
+
+            $(function () {
+                $("[data-toggle='popover']").popover();
+                var tid = $('#model_type_select option:selected').val();
+                $('#typenote_'+tid).removeClass('displaynone');
+                seleted_tid = tid;
+            });
+
+            function type_note() {
+                var tid = $('#model_type_select option:selected').val();
+                $('#typenote_'+seleted_tid).addClass('displaynone');
+                $('#typenote_'+tid).removeClass('displaynone');
+                seleted_tid = tid;
+            }
+        </script>
+        <title>MyContact</title>
+    </head>
+    <body style="padding: 0px;background-color: #e8e8e8;">
+        <canvas id="space" style="
+            position:absolute;
+            left:0px;
+            z-index:-1;
+            margin-top: 0;
+            top: 0;
+            height:92px;
+            width:100%;">
+        </canvas>
+        <!--背景动画-->
+        <script src="static/lib/dynamic_stars.js"></script>
+        <!--头部导航栏-->
+        <div class="top_nav">
+            <div style="position:relative;left: 10px;display:inline-block;width: 65px;height: 65px;border:1px solid rgba(200,200,200,0.6);border-radius: 100px;background-color:#1d1d1d ;overflow: hidden ">
+                <a href='/home-{{ id_msg }}.html'>
+                    <img alt="img" src="{{ imgsrc_msg }}" style="position: relative;right: 5px;bottom:2px;height: 65px;" />
+                </a>
+            </div >
+            <a href='/home-{{ id_msg }}.html'><img alt="img" src="static/img/mycontact.png" style="position: absolute;top: 15px;left: 115px;height: 65px;"/></a>
+            <div style="position: absolute;right: 20px;top:37px">
+                <span class="username">用户&nbsp;{{ name_msg }}</span>
+                <span class="username">,</span>
+                <a href="/login" class="username" >注销</a>
+            </div>
+        </div>
+        <!--标签/搜索栏-->
+        <div class="nav_tag" style="height: auto;padding:2px 25px;font-family: 'Microsoft YaHei UI'">
+            <a href='/home-{{ id_msg }}.html' class="btn btn-primary nav_left" style="margin-left: 0px;font-size: 14px;"><<返回</a>
+            <a data-target="#myModal" data-toggle="modal" class="btn btn-success nav_left" style="font-size: 14px;">管理</a>
+            <a href='/contactType-{{ id_msg }}.html'  class="btn btn-default nav_left" style="font-size: 14px;">所有联系人</a>
+            {% for tag in type_tag %}
+                <a href="/selectedType-{{ id_msg }}_{{ tag.0 }}.html" type="button" class="btn btn-default tag_style" title="备注"
+                        data-container="body" data-toggle="popover" data-placement="bottom"
+                        data-content="{{ tag.2 }}" data-trigger="hover">
+                    {{ tag.1 }}
+                </a>
+            {% endfor %}
+
+        </div>
+        <!--标签/搜索栏-->
+        <!--新建模态框-->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog"  style="font-family: 'Microsoft YaHei UI'">
+                <form action="/edittype-{{ id_msg }}.html" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a type="buttn" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </a>
+                        <h4 class="modal-title" id="myModalLabel">
+                            新建&管理类别
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <!--表单-->
+                        <span class="tspan">类别：</span>
+                        <select name="type" style="margin: 6px 0px;" onchange="type_note()" id="model_type_select" >
+                            {% for tag in type_edit_tag %}
+                                <option value="{{ tag.0 }}">{{ tag.1 }}</option>
+                            {% endfor %}
+                            <option value="new">新建</option>
+                        </select>
+                        <input id="typename_input" name="typename" style="width: 107px;" placeholder="请输入新类别名" type="text"/>
+                        <br>
+                        <span class="tspan" style="vertical-align: top;">备注：</span>
+                            {% for tag in type_edit_tag %}
+                                <textarea name="note_{{ tag.0 }}" style="color: #5e5e5e;" cols="20" rows="4" class="displaynone" id="typenote_{{ tag.0 }}">{{ tag.2 }}</textarea>
+                            {% endfor %}
+                                <textarea name="note_new" style="color: #5e5e5e;" cols="20" rows="4" class="displaynone" id="typenote_new"></textarea>
+                        <!--表单-->
+                    </div>
+                    <div class="modal-footer">
+                        <input name="submit_delete" type="submit" class="btn btn-danger btn-sm" style="width: 70px;" value="删除" />
+                        <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" style="width: 70px;" value="关闭"/>
+                        <input name="submit_edit" type="submit" class="btn btn-primary btn-sm" style="width: 70px" value="提交"/>
+
+                    </div>
+                </div><!-- /.modal-content -->
+                </form>
+            </div><!-- /.modal -->
+        </div>
+        <!--新建模态框-->
+
+
+
+
+
+
+    <div style="padding-left: 10px;">
+        <!--联系人卡片-->
+        {% for row in row_msg %}
+        <div class="out" id="out_{{ row.cid }}">
+            <div class="mask"></div>
+            <img src="static/img/lowpoly/{{ row.picnum }}.jpg" class="bg_color"/>
+            <a onclick="edit(id)" id="cedit_{{ row.cid }}" class="btn btn-success btn-xs editstyle">修改</a>
+            <form action="/contactEdit" name="contact_edit" method="post">
+            <input class="displaynone" name="id" type="text" id="cid_{{ row.cid }}" readonly="readonly" value="{{ id_msg }}-{{ row.cid }}"/>
+            <input class="cname" name="name" type="text" id="cname_{{ row.cid }}" readonly="readonly" value="{{ row.cname }}"/>
+            <div class="info">
+                <input type="text" name="phone" id="cpnum_{{ row.cid }}" readonly="readonly" value="{{ row.cphone }}" style="font-size: 20px;margin:8px 0px;border: 0px;position: relative;right: 5px;"/>
+                <a  onclick="cancel(id)" id="ccancel_{{ row.cid }}" class="btn btn-success btn-xs displaynone buttonselect" style="position: relative;bottom: 2px;left: 6px;">取消</a><br>
+
+                <span class="tspan" >类别：</span>
+                        <input id="type_input_{{ row.cid }}" style="width: 60px;" value="{{ row.tid }}"/>
+                    <select style="margin: 6px 0px;" name="type" onchange="addtype_id(id)" class="displaynone" id="ctype_{{ row.cid }}">
+                            {%  for i in type_msg %}
+                                <option value="{{ i.0 }}">{{ i.1 }}</option>
+                            {% endfor %}
+                            <option value="new">新建</option>
+                    </select>
+                    <input style="width:65px;" id="newtype_input_{{ row.cid }}" name="newtype" class="displaynone" style="width: 80px;" placeholder="新建类别" type="text"/>
+                    <br>
+                <!--更改12-2-->
+                <span class="tspan">性别：</span>
+                    <select style="margin: 6px 0px;" name="gender" id="cgender_{{ row.cid }}" disabled="disabled">
+                        {% if row.cgender == '男' %}
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                            <option value=""></option>
+                        {% endif %}
+                        {% if row.cgender == '女' %}
+                            <option value="女">女</option>
+                            <option value="男">男</option>
+                            <option value=""></option>
+                        {% endif %}
+                        {% if row.cgender == '' %}
+                            <option value=""></option>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        {% endif %}
+                    </select>
+                <br>
+                <!--更改12-2-->
+
+                <span class="tspan" style="position: relative;top: 5px;">邮箱：</span>
+                    <textarea name="email" id="cmail_{{ row.cid }}" class="ctextarea" readonly="readonly">{{ row.cemail }}</textarea><br>
+                <span class="tspan" style="position: relative;top: 5px;">备注：</span>
+                    <textarea name="note" id="cnote_{{ row.cid }}" rows="4" class="ctextarea" style="font-size: 10px;margin-bottom: 10px;" readonly="readonly">{{ row.cnote }}</textarea>
+                <br>
+                <div style="position: relative;left: 88px;">
+                    <input name="submit_delete" type="submit" id="cdelete_{{ row.cid }}" value="删除" class="btn btn-danger btn-xs displaynone csubmit buttonselect" >
+                    <input name="submit_edit" type="submit" id="csubmit_{{ row.cid }}" value="提交" class="btn btn-primary btn-xs displaynone csubmit buttonselect" >
+                </div>
+            </div>
+            </form>
+        </div>
+        {% endfor %}
+        <!--联系人卡片-->
+    </div>
+    </body>
+</html>
